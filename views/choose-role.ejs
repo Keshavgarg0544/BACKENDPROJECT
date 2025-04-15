@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    .main-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .box {
+      width: 260px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 30px 20px;
+      color: #ffffff;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .box i {
+      font-size: 3rem;
+      color: #00d4ff;
+      margin-bottom: 15px;
+    }
+
+    .box h3 {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      color: #00d4ff;
+    }
+
+    .box p {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+
+    .box:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 0 15px #00d4ff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    @media (max-width: 768px) {
+      .main-box {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-box">
+    <a href="admin/login">
+      <div class="box">
+        <i class="fa-solid fa-user"></i>
+        <h3>Admin</h3>
+        <p>Login as administrator to access the dashboard and manage data.</p>
+      </div>
+    </a>
+
+    <a href="teacher/login">
+      <div class="box">
+        <i class="fa-solid fa-chalkboard-user"></i>
+        <h3>Teacher</h3>
+        <p>Login as teacher to create courses, assignments, and track progress.</p>
+      </div>
+    </a>
+
+    <a href="student/login">
+      <div class="box">
+        <i class="fa-brands fa-google-scholar"></i>
+        <h3>Student</h3>
+        <p>Login as a student to explore course materials and assignments.</p>
+      </div>
+    </a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!-- views/editteacher.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Teacher</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      animation: fadeIn 0.8s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 500px;
+      color: white;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #00d4ff;
+      font-size: 28px;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 14px 15px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #00d4ff;
+      font-size: 16px;
+      transition: 0.3s ease;
+      appearance: none;
+    }
+
+    .form-group input::placeholder {
+      color: transparent;
+    }
+
+    .form-group label {
+      position: absolute;
+      top: 50%;
+      left: 15px;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 0 6px;
+      color: #ccc;
+      transition: 0.2s;
+      pointer-events: none;
+    }
+
+    .form-group input:focus + label,
+    .form-group input:not(:placeholder-shown) + label,
+    .form-group select:valid + label {
+      top: -8px;
+      left: 10px;
+      font-size: 12px;
+      color: #00d4ff;
+      background: #2c5364;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 8px #00d4ff;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #00d4ff;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 12px #00d4ff;
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Edit Teacher</h2>
+    <form action="/admin/editteacher/<%= teacher._id %>" method="POST">
+      <div class="form-group">
+        <input type="text" name="fname" value="<%= teacher.fname %>" required placeholder=" " />
+        <label>First Name</label>
+      </div>
+      <div class="form-group">
+        <input type="text" name="lname" value="<%= teacher.lname %>" required placeholder=" " />
+        <label>Last Name</label>
+      </div>
+      <div class="form-group">
+        <input type="number" name="age" value="<%= teacher.age %>" required placeholder=" " />
+        <label>Age</label>
+      </div>
+      <div class="form-group">
+        <select name="subject" required>
+          <option value="" disabled selected hidden></option>
+          <% subjects.forEach(subject => { %>
+            <option value="<%= subject._id %>" <%= subject._id.equals(teacher.subject._id) ? 'selected' : '' %>><%= subject.name %></option>
+          <% }) %>
+        </select>
+        <label for="subject">Subject</label>
+      </div>
+      <div class="form-group">
+        <select name="classId" required>
+          <option value="" disabled selected hidden></option>
+          <% classes.forEach(cls => { %>
+            <option value="<%= cls._id %>" <%= cls._id.equals(teacher.classId._id) ? 'selected' : '' %>><%= cls.name %></option>
+          <% }) %>
+        </select>
+        <label for="classId">Class</label>
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" value="<%= teacher.email %>" required placeholder=" " />
+        <label>Email</label>
+      </div>
+      
+      <button type="submit">Update Teacher</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Signup</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 500px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      color: white;
+    }
+
+    .container h1 {
+      font-size: 32px;
+      margin-bottom: 25px;
+      color: #00d4ff;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    input::placeholder {
+      color: #ccc;
+    }
+
+    input:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 8px #00d4ff;
+    }
+
+    .error {
+      color: #ff6b6b;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #00d4ff;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 12px #00d4ff;
+    }
+
+    p {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    a {
+      color: #ffffff;
+      font-weight: bold;
+      text-decoration: underline;
+      transition: 0.3s;
+    }
+
+    a:hover {
+      color: #00d4ff;
+    }
+
+    @media (max-width: 400px) {
+      .container {
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Sign Up</h1>
+    <% if (message) { %>
+      <p class="error"><%= message %></p>
+    <% } %>
+    <form action="/admin/signup" method="POST">
+      <div class="form-group">
+        <input type="text" name="username" placeholder="Username" required />
+      </div>
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Name" required />
+      </div>
+      <div class="form-group">
+        <input type="email" name="email" placeholder="E-mail" required />
+      </div>
+      <div class="form-group">
+        <input type="number" name="number" placeholder="Phone Number" required />
+      </div>
+      <div class="form-group">
+        <input type="password" name="password" placeholder="Password" required />
+      </div>
+      <button type="submit">Signup</button>
+    </form>
+    <p>Already have an account? <a href="/admin/login">Login</a></p>
+  </div>
+</body>
+</html>

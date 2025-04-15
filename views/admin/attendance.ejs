@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Attendance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      color: white;
+      overflow-x: auto;
+    }
+    h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+      color: #00d4ff;
+      text-align: center;
+    }
+    select, button, .back-btn, input[type="date"] {
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: none;
+      margin: 10px 5px 20px 0;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    select, input[type="date"] {
+      background: white;
+      color: #333;
+    }
+    button {
+      background-color: #00d4ff;
+      color: white;
+    }
+    button:hover, .back-btn:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 12px #00d4ff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 15px;
+    }
+    th {
+      background-color: rgba(0, 212, 255, 0.2);
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+    tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    input[type="radio"] {
+      transform: scale(1.1);
+      margin-right: 5px;
+      cursor: pointer;
+    }
+    .back-btn {
+      text-decoration: none;
+      background-color: #00d4ff;
+      color: white;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      background-color: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 10px 0 20px;
+      flex-wrap: wrap;
+    }
+    .summary p {
+      margin: 5px 15px;
+      font-weight: 600;
+    }
+    .no-data {
+      text-align: center;
+      font-size: 18px;
+      color: #ff6b6b;
+      margin: 20px 0;
+    }
+    canvas {
+      max-width: 250px;
+      margin: 20px auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📅 Mark Attendance</h2>
+
+    <form action="/admin/attendance" method="POST">
+      <label for="date">Select Date:</label>
+      <input type="date" name="date" value="<%= todayDate %>" required>
+
+      <label for="subject">Subject:</label>
+      <select name="subject" required onchange="this.form.submit()">
+        <% subjects.forEach(subject => { %>
+          <option value="<%= subject.name %>" <%= subject.name === selectedSubject ? 'selected' : '' %>><%= subject.name %></option>
+        <% }) %>
+      </select>
+
+      <% if (students.length > 0) { %>
+
+      <!-- Summary Section -->
+      <div class="summary">
+        <p>Total Students: <%= students.length %></p>
+        <p>Present: <%= presentCount %></p>
+        <p>Absent: <%= absentCount %></p>
+        <p>Today's Attendance: <%= todayPercentage %>%</p>
+      </div>
+
+
+      <!-- Bulk Buttons -->
+      <button type="button" onclick="markAll('Present')">Mark All Present</button>
+      <button type="button" onclick="markAll('Absent')">Mark All Absent</button>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>Status</th>
+            <th>Attendance</th>
+           
+          </tr>
+        </thead>
+        <tbody>
+          <% students.forEach(student => {
+            const stats = attendanceStats[student._id] || { total: 0, present: 0, percentage: 0 };
+          %>
+            <tr>
+              <td><%= student.fname %> <%= student.lname %></td>
+              <td><%= student.rollno %></td>
+              <td>
+                <label><input type="radio" name="attendance[<%= student._id %>]" value="Present" required> Present</label>
+                <label style="margin-left: 10px;"><input type="radio" name="attendance[<%= student._id %>]" value="Absent"> Absent</label>
+              </td>
+              <td><%= stats.present %> / <%= stats.total %> (<%= stats.percentage %>%)</td>
+        
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+
+      <button type="submit">Submit Attendance</button>
+
+      <% } else { %>
+        <p class="no-data">⚠️ No students registered yet.</p>
+      <% } %>
+    </form>
+
+    <a href="/admin/admindash" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <script>
+    function markAll(status) {
+      const radios = document.querySelectorAll(`input[type="radio"][value="${status}"]`);
+      radios.forEach(radio => radio.checked = true);
+    }
+
+   
+  </script>
+</body>
+</html>

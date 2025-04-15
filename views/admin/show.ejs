@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registered Students</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      color: white;
+      overflow-x: auto;
+      animation: fadeSlideIn 1s ease;
+    }
+
+    @keyframes fadeSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      color: #00d4ff;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #00d4ff;
+      box-shadow: 0 0 8px rgba(0, 212, 255, 0.4);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    th {
+      background-color: rgba(0, 212, 255, 0.2);
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    tr:nth-child(even) {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    tr {
+      transition: all 0.3s ease;
+    }
+
+    tr:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      transform: scale(1.01);
+    }
+
+    .action-btn {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .edit {
+      background-color: #00d4ff;
+    }
+
+    .edit:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 8px #00d4ff;
+      transform: translateY(-2px);
+    }
+
+    .delete {
+      background-color: #ff6b6b;
+    }
+
+    .delete:hover {
+      background-color: #ff4b4b;
+      box-shadow: 0 0 8px #ff6b6b;
+      transform: translateY(-2px);
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background-color: #00d4ff;
+      color: white;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 12px #00d4ff;
+      transform: translateY(-2px);
+    }
+
+    .no-data {
+      text-align: center;
+      font-size: 18px;
+      color: #ff6b6b;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      table {
+        font-size: 13px;
+      }
+
+      th, td {
+        padding: 10px 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📋 Registered Students</h2>
+
+    <input type="text" id="searchInput" placeholder="Search students..." onkeyup="filterTable()">
+
+    <% if (users.length > 0) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>Father's Name</th>
+            <th>Roll No</th>
+            <th>Mobile</th>
+            <th>Batch</th>
+            <th>Class</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr>
+              <td><%= user.fname %></td>
+              <td><%= user.lname %></td>
+              <td><%= user.age %></td>
+              <td><%= user.fathername %></td>
+              <td><%= user.rollno %></td>
+              <td><%= user.mobno %></td>
+              <td><%= user.batch %></td>
+              <td><%= user.classId ? user.classId.name : 'N/A' %></td>
+              <td>
+                <a href="/admin/edit/<%= user.id %>" class="action-btn edit">
+                  <i class="fas fa-pen"></i> Edit
+                </a>
+              </td>
+              <td>
+                <a href="/admin/delete/<%= user.id %>" class="action-btn delete" onclick="return confirm('Are you sure you want to delete this student?')">
+                  <i class="fas fa-trash"></i> Delete
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p class="no-data">⚠️ No students registered yet.</p>
+    <% } %>
+
+    <a href="/admin/admindash" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+  </div>
+
+  <script>
+    function filterTable() {
+      const input = document.getElementById('searchInput').value.toLowerCase();
+      const rows = document.querySelectorAll('tbody tr');
+
+      rows.forEach(row => {
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(input) ? '' : 'none';
+      });
+    }
+  </script>
+</body>
+</html>

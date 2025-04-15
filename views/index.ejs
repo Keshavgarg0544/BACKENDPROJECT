@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      color: white;
+    }
+
+    .container img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 30px;
+      color: #00d4ff;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .buttons {
+      margin-bottom: 20px;
+    }
+
+    .login-btn,
+    .guest-btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+      margin: 5px;
+    }
+
+    .login-btn {
+      background-color: #00d4ff;
+      color: #fff;
+    }
+
+    .login-btn:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 12px #00d4ff;
+    }
+
+    .guest-btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .guest-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      box-shadow: 0 0 12px #ccc;
+    }
+
+    .signup {
+      font-size: 14px;
+    }
+
+    .signup a {
+      color: #ffffff;
+      font-weight: bold;
+      text-decoration: underline;
+      transition: 0.3s;
+    }
+
+    .signup a:hover {
+      color: #00d4ff;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="image/sms.jpg" alt="School Illustration">
+    <h1>Welcome to <br>School Management System</h1>
+    <p>Streamline school management, class organization, and add students and faculty. Seamlessly track attendance, assess performance, and provide feedback. Access records, view marks, and communicate effortlessly.</p>
+    <div class="buttons">
+      <button class="login-btn" onclick="window.location.href='/choose'">Login</button>
+
+    </div>
+    <p class="signup">Don’t have an account? <a href="/signup">Sign up</a></p>
+  </div>
+</body>
+</html>

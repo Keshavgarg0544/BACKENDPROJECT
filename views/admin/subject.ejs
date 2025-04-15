@@ -1,0 +1,515 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Subject</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #1f2937;
+      --accent-color: #00c6ff;
+      --gradient-bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --box-glow: #00d4ff;
+      --text-color: #ffffff;
+      --sidebar-bg: #111827;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: var(--gradient-bg);
+      color: var(--text-color);
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      padding-top: 30px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    }
+
+    .sidebar h2 {
+      margin-bottom: 40px;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .sidebar a {
+      color: #cbd5e0;
+      text-decoration: none;
+      padding: 15px 25px;
+      margin: 10px 0;
+      width: 100%;
+      text-align: center;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255,255,255,0.05);
+      color: var(--accent-color);
+      box-shadow: inset 0 0 10px var(--accent-color);
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 60px 40px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: var(--accent-color);
+      text-shadow: 1px 1px 6px rgba(0,198,255,0.3);
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 10px rgba(0,198,255,0.1);
+      margin-bottom: 50px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      background: #1e293b;
+      color: #f8fafc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color: var(--accent-color);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 12px var(--box-glow);
+    }
+
+    .subject-list {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 800px;
+      box-shadow: 0 0 10px rgba(0,198,255,0.1);
+    }
+
+    .subject-list h2 {
+      margin-bottom: 20px;
+      color: var(--accent-color);
+    }
+
+    .subject-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .subject-item span {
+      font-weight: 600;
+    }
+
+    .subject-item a {
+      color: #ff6b6b;
+      text-decoration: none;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px 0;
+      }
+
+      .main {
+        margin-left: 0;
+        padding: 100px 20px 40px;
+      }
+
+      form, .subject-list {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <a href="/admin/dashome"><i class="fas fa-home"></i> Home</a>
+        <a href="/admin/admindash"><i class="fas fa-user-graduate"></i> Students</a>
+        <a href="/admin/teacher-dashboard"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
+        <a href="/admin/class"><i class="fas fa-layer-group"></i> Class</a>
+        <a href="/admin/subject"><i class="fas fa-book"></i> Subject</a>
+        <a href="/choose"><i class="fas fa-sign-out-alt"></i> Logout</a>
+      </div>
+
+  <div class="main">
+    <h1>Add New Subject</h1>
+    
+    <form action="/admin/subject/add" method="POST">
+      <label for="subjectName">Subject Name</label>
+      <input type="text" id="subjectName" name="subjectName" required>
+
+      <label for="subjectCode">Subject Code</label>
+      <input type="text" id="subjectCode" name="subjectCode" required>
+
+      <label for="classId">Class</label>
+      <select id="classId" name="classId" required>
+        <% if (classes && classes.length > 0) { %>
+          <% classes.forEach(cls => { %>
+            <option value="<%= cls._id %>"><%= cls.name %></option>
+          <% }); %>
+        <% } else { %>
+          <option disabled>No classes available</option>
+        <% } %>
+      </select>
+
+      <button type="submit"><i class="fas fa-plus-circle"></i> Add Subject</button>
+    </form>
+
+    <div class="subject-list">
+      <h2>Subjects List</h2>
+      <% if (subjects && subjects.length > 0) { %>
+        <% subjects.forEach(sub => { %>
+          <div class="subject-item">
+            <div>
+              <span><%= sub.name %></span> (<%= sub.subjectCode|| 'N/A' %>) - Class: <%= sub.classId?.name || 'N/A' %>
+            </div>
+            <a href="/admin/subject/delete/<%= sub._id %>">Delete</a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No subjects added yet.</p>
+      <% } %>
+    </div>
+  </div>
+
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Subject</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #1f2937;
+      --accent-color: #00c6ff;
+      --gradient-bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --box-glow: #00d4ff;
+      --text-color: #ffffff;
+      --sidebar-bg: #111827;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    body {
+      display: flex;
+      height: 100vh;
+      background: var(--gradient-bg);
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+
+    .toggle-btn {
+  display: none;
+  font-size: 30px;
+  color: var(--accent-color);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 15px;
+  position: absolute; /* changed from absolute to fixed */
+  top: -10px;
+  left: 20px;
+  z-index: 3000; /* increased z-index so it stays above the sidebar */
+}
+
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      padding-top: 70px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+      z-index: 2000;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 40px;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .sidebar a {
+      color: #cbd5e0;
+      text-decoration: none;
+      padding: 15px 25px;
+      margin: 10px 0;
+      width: 100%;
+      text-align: center;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255,255,255,0.05);
+      color: var(--accent-color);
+      box-shadow: inset 0 0 10px var(--accent-color);
+    }
+
+    .content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 80px 30px;
+    }
+
+    h1 {
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: var(--accent-color);
+      text-align: center;
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 10px rgba(0, 198, 255, 0.1);
+      margin: 0 auto 50px;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 600;
+      color: #f1f5f9;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: none;
+      background: #1e293b;
+      color: #f8fafc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 12px 25px;
+      background-color: var(--accent-color);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    #sb:hover {
+      background-color: #009dcf;
+      box-shadow: 0 0 12px var(--box-glow);
+    }
+
+    .subject-list {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 800px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0, 198, 255, 0.1);
+    }
+
+    .subject-list h2 {
+      margin-bottom: 20px;
+      color: var(--accent-color);
+    }
+
+    .subject-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .subject-item span {
+      font-weight: 600;
+    }
+
+    .subject-item a {
+      color: #ff6b6b;
+      text-decoration: none;
+    }
+
+    .hide-boxes .subject-list {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .toggle-btn {
+        display: block;
+      }
+
+      .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 100px 20px 40px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="toggle-btn" id="toggleBtn"><i class="fas fa-bars"></i></button>
+
+  <div class="sidebar" id="sidebar">
+    <h2>Admin Panel</h2>
+    <a href="/admin/dashome"><i class="fas fa-home"></i> Home</a>
+    <a href="/admin/admindash"><i class="fas fa-user-graduate"></i> Students</a>
+    <a href="/admin/teacher-dashboard"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
+    <a href="/admin/class"><i class="fas fa-layer-group"></i> Class</a>
+    <a href="/admin/subject"><i class="fas fa-book"></i> Subject</a>
+    <a href="/admin/circulars"><i class="fas fa-bullhorn"></i> Circulars</a>
+    <a href="/admin/profile"><i class="fas fa-user-circle"></i> Profile</a>
+    <a href="/choose"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </div>
+
+  <div class="content" id="content">
+    <h1>Add New Subject</h1>
+
+    <form action="/admin/subject/add" method="POST">
+      <label for="subjectName">Subject Name</label>
+      <input type="text" id="subjectName" name="subjectName" required>
+
+      <label for="subjectCode">Subject Code</label>
+      <input type="text" id="subjectCode" name="subjectCode" required>
+
+      <label for="classId">Class</label>
+      <select id="classId" name="classId" required>
+        <% if (classes && classes.length > 0) { %>
+          <% classes.forEach(cls => { %>
+            <option value="<%= cls._id %>"><%= cls.name %></option>
+          <% }); %>
+        <% } else { %>
+          <option disabled>No classes available</option>
+        <% } %>
+      </select>
+
+      <button type="submit" id="sb"><i class="fas fa-plus-circle"></i> Add Subject</button>
+    </form>
+
+    <div class="subject-list">
+      <h2>Subjects List</h2>
+      <% if (subjects && subjects.length > 0) { %>
+        <% subjects.forEach(sub => { %>
+          <div class="subject-item">
+            <div>
+              <span><%= sub.name %></span> (<%= sub.subjectCode || 'N/A' %>) - Class: <%= sub.classId?.name || 'N/A' %>
+            </div>
+            <a href="/admin/subject/delete/<%= sub._id %>">Delete</a>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <p>No subjects added yet.</p>
+      <% } %>
+    </div>
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById('toggleBtn');
+    const sidebar = document.getElementById('sidebar');
+    const content = document.getElementById('content');
+
+    toggleBtn.addEventListener('click', () => {
+      const isMobile = window.innerWidth <= 768;
+      sidebar.classList.toggle('active');
+
+      if (isMobile) {
+        if (sidebar.classList.contains('active')) {
+          content.classList.add('hide-boxes');
+        } else {
+          content.classList.remove('hide-boxes');
+        }
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        sidebar.classList.remove('active');
+        content.classList.remove('hide-boxes');
+      }
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Circulars | Admin Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary-color: #1f2937;
+      --accent-color: #00c6ff;
+      --gradient-bg: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      --box-glow: #00d4ff;
+      --text-color: #ffffff;
+      --sidebar-bg: #111827;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: var(--gradient-bg);
+      color: var(--text-color);
+      overflow-x: hidden;
+      transition: margin-left 0.3s;
+    }
+
+    .sidebar {
+      width: 250px;
+      background-color: var(--sidebar-bg);
+      padding-top: 70px;
+      position: fixed;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
+
+    .sidebar h2 {
+      margin-bottom: 40px;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent-color);
+    }
+
+    .sidebar a {
+      color: #cbd5e0;
+      text-decoration: none;
+      padding: 15px 25px;
+      margin: 10px 0;
+      width: 100%;
+      text-align: center;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .sidebar a:hover {
+      background-color: rgba(255,255,255,0.05);
+      color: var(--accent-color);
+      box-shadow: inset 0 0 10px var(--accent-color);
+    }
+
+    .content {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+      padding: 50px 30px;
+      transition: margin-left 0.3s;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      margin-bottom: 20px;
+      border-radius: 5px;
+    }
+
+    h1 {
+      color: var(--accent-color);
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    th {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: var(--accent-color);
+    }
+
+    td .action-btns button,
+    td .action-btns a {
+      background: none;
+      border: none;
+      color: var(--accent-color);
+      margin: 0 5px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7);
+    }
+
+    .modal-content {
+      background-color: #1f2937;
+      margin: 10% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 90%;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #fff;
+    }
+
+    .toggle-btn {
+      display: none;
+      font-size: 30px;
+      color: var(--accent-color);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 15px;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 100;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.active {
+        transform: translateX(0);
+      }
+
+      .content {
+        margin-left: 0;
+        width: 100%;
+        padding: 100px 20px 40px;
+      }
+
+      .toggle-btn {
+        display: block;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+
+<button class="toggle-btn" id="toggleBtn"><i class="fas fa-bars"></i></button>
+
+<div class="sidebar" id="sidebar">
+  <h2>Admin Panel</h2>
+  <a href="/admin/dashome"><i class="fas fa-home"></i> Home</a>
+  <a href="/admin/admindash"><i class="fas fa-user-graduate"></i> Students</a>
+  <a href="/admin/teacher-dashboard"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
+  <a href="/admin/class"><i class="fas fa-layer-group"></i> Class</a>
+  <a href="/admin/subject"><i class="fas fa-book"></i> Subject</a>
+  <a href="/admin/circulars"><i class="fas fa-bullhorn"></i> Circulars</a>
+  <a href="/admin/profile"><i class="fas fa-user-circle"></i> Profile</a>
+  <a href="/choose"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</div>
+
+<div class="content" id="content">
+  <h1>📢 Circulars</h1>
+  <button class="btn" onclick="openModal()">➕ Add Circular</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Document</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% circulars.forEach(c => { %>
+        <tr>
+          <td><%= c.title %></td>
+          <td><%= c.description %></td>
+          <td>
+            <% if (c.document) { %>
+              <a href="<%= c.document %>" target="_blank">📎 View</a>
+            <% } else { %>
+              No file
+            <% } %>
+          </td>
+          <td><%= new Date(c.date).toLocaleDateString() %></td>
+          <td class="action-btns">
+            <button onclick="editCircular('<%= c._id %>')"><i class="fas fa-edit"></i></button>
+            <button onclick="deleteCircular('<%= c._id %>')"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2 id="modalTitle">Add Circular</h2>
+    <form id="circularForm" enctype="multipart/form-data">
+      <input type="hidden" name="circularId" id="circularId">
+      <input type="text" name="title" id="title" placeholder="Title" required />
+      <textarea name="description" id="description" placeholder="Description" rows="4" required></textarea>
+      <input type="file" name="document" id="document" accept=".pdf,.doc,.docx,.ppt,.pptx" />
+      <button class="btn" type="submit">Save</button>
+    </form>
+  </div>
+</div>
+
+<script>
+
+  const modal = document.getElementById("modal");
+  const form = document.getElementById("circularForm");
+
+
+  function openModal() {
+    modal.style.display = "block";
+    document.getElementById("modalTitle").textContent = "Add Circular";
+    form.circularId.value = '';
+    form.title.value = '';
+    form.description.value = '';
+    form.document.value = '';
+  }
+
+  function closeModal() {
+    modal.style.display = "none";
+  }
+
+  form.onsubmit = function(e) {
+    e.preventDefault(); 
+    const id = form.circularId.value;
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `/admin/circulars/${id}` : '/admin/circulars';
+    
+    const formData = new FormData(form);
+
+    fetch(url, {
+      method,
+      body: formData
+    }).then(res => {
+      if (res.ok) {
+        alert('Circular saved');
+        closeModal();
+        location.reload(); 
+      } else {
+        alert('Error saving circular');
+      }
+    }).catch(err => {
+      alert('Error saving circular');
+    });
+  };
+
+  function editCircular(circularId) {
+    fetch(`/admin/circulars/${circularId}`)
+      .then(res => res.json())
+      .then(circular => {
+        modal.style.display = "block";
+        document.getElementById("modalTitle").textContent = "Edit Circular";
+        form.circularId.value = circular._id;
+        form.title.value = circular.title;
+        form.description.value = circular.description;
+      }).catch(err => {
+        alert('Error fetching circular data');
+      });
+  }
+
+  function deleteCircular(circularId) {
+  const confirmDelete = confirm("Are you sure you want to delete this circular?");
+  if (confirmDelete) {
+    fetch(`/admin/circulars/${circularId}`, {
+      method: 'DELETE'
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.message === 'Circular deleted successfully') {
+        alert('Circular deleted');
+        location.reload(); 
+      } else {
+        alert('Error: ' + data.message);
+      }
+    })
+    .catch(err => {
+      alert('Error deleting circular: ' + err.message);
+    });
+  }
+}
+
+  document.getElementById("toggleBtn").onclick = function() {
+    document.getElementById("sidebar").classList.toggle("active");
+    document.getElementById("content").classList.toggle("active");
+  };
+</script>
+</body>
+</html>

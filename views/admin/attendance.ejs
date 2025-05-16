@@ -130,7 +130,6 @@
 
       <% if (students.length > 0) { %>
 
-      <!-- Summary Section -->
       <div class="summary">
         <p>Total Students: <%= students.length %></p>
         <p>Present: <%= presentCount %></p>
@@ -138,8 +137,6 @@
         <p>Today's Attendance: <%= todayPercentage %>%</p>
       </div>
 
-
-      <!-- Bulk Buttons -->
       <button type="button" onclick="markAll('Present')">Mark All Present</button>
       <button type="button" onclick="markAll('Absent')">Mark All Absent</button>
 
@@ -153,6 +150,7 @@
            
           </tr>
         </thead>
+        
         <tbody>
           <% students.forEach(student => {
             const stats = attendanceStats[student._id] || { total: 0, present: 0, percentage: 0 };

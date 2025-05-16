@@ -32,7 +32,6 @@
       transition: margin-left 0.3s;
     }
 
-    /* Sidebar */
     .sidebar {
       width: 250px;
       background-color: var(--sidebar-bg);
@@ -70,7 +69,6 @@
       box-shadow: inset 0 0 10px var(--accent-color);
     }
 
-    /* Content */
     .content {
       margin-left: 250px;
       margin-bottom: 150px;
@@ -91,7 +89,6 @@
       margin-bottom: 30px;
     }
 
-    /* Centering the table */
     table {
       width: 100%;
       border-collapse: collapse;
@@ -147,7 +144,6 @@
       margin: 20px 0;
     }
 
-    /* Toggle Button */
     .toggle-btn {
       display: none;
       font-size: 30px;
@@ -162,7 +158,6 @@
       z-index: 100;
     }
 
-    /* Responsive Styles */
     @media (max-width: 768px) {
       .sidebar {
         transform: translateX(-100%);
@@ -186,10 +181,8 @@
 </head>
 <body>
 
-  <!-- Toggle Button -->
   <button class="toggle-btn" id="toggleBtn"><i class="fas fa-bars"></i></button>
 
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <h2>Student Panel</h2>
     <a href="/student/dashboard"><i class="fas fa-home"></i> Home</a>
@@ -212,7 +205,7 @@
               <th>Total Marks (Out of)</th>
               <th>Exam Date</th>
               <th>Exam Percentage</th>
-              <th>Overall Percentage</th>
+           
             </tr>
           </thead>
           <tbody>
@@ -224,7 +217,6 @@
                 <td><%= stat.exams[0].totalMarks %></td>
                 <td><%= stat.exams[0].examDate %></td>
                 <td><%= stat.exams[0].examPercentage %>%</td>
-                <td rowspan="<%= stat.exams.length %>"><%= stat.overallPercentage %>%</td>
               </tr>
               <% for (let i = 1; i < stat.exams.length; i++) { %>
                 <tr>
@@ -244,7 +236,6 @@
 
   </div>
 
-  <!-- JavaScript -->
   <script>
     const toggleBtn = document.getElementById('toggleBtn');
     const sidebar = document.getElementById('sidebar');

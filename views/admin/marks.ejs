@@ -106,7 +106,6 @@
   <div class="container">
     <h2>📝 Enter Marks</h2>
 
-    <!-- Subject Dropdown Form (GET) -->
     <form method="GET" action="/admin/marks">
       <label for="subject">Subject:</label>
       <select name="subject" onchange="this.form.submit()">
@@ -116,9 +115,8 @@
       </select>
     </form>
 
-    <!-- Marks Entry Form (POST) -->
     <form action="/admin/marks" method="POST">
-      <!-- Hidden subject field -->
+      
       <input type="hidden" name="subject" value="<%= selectedSubject %>">
 
       <label for="date">Date:</label>

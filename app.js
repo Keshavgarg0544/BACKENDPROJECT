@@ -18,8 +18,8 @@ mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => console.log('✅ MongoDB connected'))
-.catch((err) => console.error('❌ MongoDB connection error:', err));
+.then(() => console.log('MongoDB connected'))
+.catch((err) => console.error('MongoDB connection error:', err));
 
 const session = require('express-session');
 
@@ -29,6 +29,8 @@ app.use(session({
   saveUninitialized: true
   
 }));
+
+
 app.use('/admin', require('./routes/admin'));
 app.use('/teacher', require('./routes/teacher'));
 app.use('/student', require('./routes/student'));

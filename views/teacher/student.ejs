@@ -2,14 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit User</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
-    rel="stylesheet"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Registration</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -21,11 +15,11 @@
     }
 
     body {
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       animation: fadeIn 0.8s ease;
     }
 
@@ -41,26 +35,26 @@
     }
 
     .container {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(15px);
-      padding: 40px 30px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      width: 90%;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
       max-width: 500px;
-      color: white;
+      color: #fff;
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 30px;
       color: #00d4ff;
-      font-size: 28px;
+      font-size: 26px;
+      margin-bottom: 30px;
     }
 
     .form-group {
       position: relative;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .form-group input,
@@ -68,12 +62,11 @@
       width: 100%;
       padding: 14px 15px;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       background: rgba(255, 255, 255, 0.1);
       color: #00d4ff;
       font-size: 16px;
       transition: 0.3s ease;
-      appearance: none;
     }
 
     .form-group input::placeholder {
@@ -85,9 +78,9 @@
       top: 50%;
       left: 15px;
       transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.3);
       padding: 0 6px;
-      color: #ccc;
+      color: #bbb;
       transition: 0.2s;
       pointer-events: none;
     }
@@ -95,27 +88,27 @@
     .form-group input:focus + label,
     .form-group input:not(:placeholder-shown) + label,
     .form-group select:valid + label {
-      top: -8px;
+      top: -10px;
       left: 10px;
       font-size: 12px;
       color: #00d4ff;
-      background: #2c5364;
+      background: rgba(0,0,0,0.2);
     }
 
     .form-group input:focus,
     .form-group select:focus {
       outline: none;
       background: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 8px #00d4ff;
+      box-shadow: 0 0 6px #00d4ff;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 12px;
       background-color: #00d4ff;
       color: white;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       font-size: 18px;
       font-weight: 600;
       cursor: pointer;
@@ -128,74 +121,65 @@
       box-shadow: 0 0 12px #00d4ff;
     }
 
-    @media (max-width: 400px) {
+    @media(max-width: 480px) {
       .container {
         padding: 30px 20px;
       }
     }
+
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Edit User</h2>
-    <form action="/admin/edit/<%= user.id %>" method="post">
+    <h2>Register Student</h2>
+    <form action="/teacher/registeruser" method="post">
       <div class="form-group">
-        <input type="text" name="fname" value="<%= user.fname %>" required placeholder=" " />
+        <input type="text" name="fname" required placeholder=" " />
         <label>First Name</label>
       </div>
       <div class="form-group">
-        <input type="text" name="lname" value="<%= user.lname %>" required placeholder=" " />
+        <input type="text" name="lname" required placeholder=" " />
         <label>Last Name</label>
       </div>
       <div class="form-group">
-        <input type="number" name="age" value="<%= user.age %>" required placeholder=" " />
+        <input type="number" name="age" required placeholder=" " />
         <label>Age</label>
       </div>
       <div class="form-group">
-        <input type="text" name="fathername" value="<%= user.fathername %>" required placeholder=" " />
+        <input type="text" name="fathername" required placeholder=" " />
         <label>Father's Name</label>
       </div>
       <div class="form-group">
-        <input
-          type="text"
-          name="rollno"
-          value="<%= user.rollno %>"
-          required
-          placeholder=" "
-        />
+        <input type="tel" name="mobno" required placeholder=" " pattern="[0-9]{10}" maxlength="10" title="Mobile number must be exactly 10 digits" />
+        <label>Mobile Number</label>
+      </div>
+      <div class="form-group">
+        <input type="text" name="batch" required placeholder=" " />
+        <label>Batch</label>
+      </div>
+      <div class="form-group">
+        <input type="text" name="rollno" required placeholder=" " />
         <label>Roll Number</label>
       </div>
       
       <div class="form-group">
-        <input
-          type="tel"
-          name="mobno"
-          value="<%= user.mobno %>"
-          required
-          placeholder=" "
-          pattern="[0-9]{10}"
-          maxlength="10"
-          minlength="10"
-          title="Mobile number must be exactly 10 digits"
-        />
-        <label>Mobile Number</label>
-      </div>
-      
-      <div class="form-group">
-        <select name="classId" required>
+        <select id="classId" name="classId" required>
           <option value="" disabled selected hidden></option>
-       
             <% classes.forEach(cls => { %>
-              <option value="<%= cls._id %>" <%=  cls._id.equals(user.classId._id) ? 'selected' : '' %>><%= cls.name %></option>
-            <% }) %>
-         
+              <option value="<%= cls._id %>"><%= cls.name %></option>
+            <% }); %>
         </select>
         <label for="classId">Class</label>
       </div>
 
-      
+    
 
-      <button type="submit">Update</button>
+      <div class="form-group">
+        <input type="password" name="password" required placeholder=" " />
+        <label>Password</label>
+      </div>
+
+      <button type="submit">Register</button>
     </form>
   </div>
 </body>

@@ -139,7 +139,6 @@
       transform: scale(1.05);
     }
 
-    /* Circulars Section Styling */
     .circulars {
       margin-top: 40px;
       width: 100%;
@@ -192,7 +191,6 @@
       border: none;
     }
 
-    /* Toggle Button */
     .toggle-btn {
       display: none;
       font-size: 30px;
@@ -207,7 +205,6 @@
       z-index: 100;
     }
 
-    /* Hiding boxes on small screen when toggle is clicked */
     .hide-boxes .st {
       display: none;
     }
@@ -251,10 +248,8 @@
 </head>
 <body>
 
-  <!-- Toggle Button -->
   <button class="toggle-btn" id="toggleBtn"><i class="fas fa-bars"></i></button>
 
-  <!-- Sidebar -->
   <div class="sidebar" id="sidebar">
     <h2>Student Panel</h2>
     <a href="/student/dashboard"><i class="fas fa-home"></i> Home</a>
@@ -264,13 +259,11 @@
 
   </div>
 
-  <!-- Content -->
   <div class="content" id="content">
     <div class="welcome">
       <h3>Welcome, <%= student.rollno %> 👑</h3>
     </div>
 
-    <!-- Circulars Section -->
     <div class="circulars">
       <% circulars.forEach(circular => { %>
         <div class="circular">
@@ -279,7 +272,6 @@
           <p><em>Posted on: <%= circular.date.toDateString() %></em></p>
 
           <% if (circular.document) { %>
-            <!-- Link to the uploaded PDF -->
             <a href="<%= circular.document %>" target="_blank" class="pdf-link">View PDF</a>
           <% } %>
         </div>
@@ -287,7 +279,6 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
   <script>
     const toggleBtn = document.getElementById('toggleBtn');
     const sidebar = document.getElementById('sidebar');

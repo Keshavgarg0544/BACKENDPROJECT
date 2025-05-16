@@ -244,8 +244,8 @@
 
   <script>
     const toggleBtn = document.getElementById('toggleBtn');
-    const sidebar = document.getElementById('sidebar');  // Sidebar now has the correct ID
-    const content = document.getElementById('content');  // Content now has the correct ID
+    const sidebar = document.getElementById('sidebar'); 
+    const content = document.getElementById('content');  
   
     toggleBtn.addEventListener('click', () => {
       const isMobile = window.innerWidth <= 768;
@@ -253,7 +253,6 @@
   
       if (isMobile) {
         const sidebarIsActive = sidebar.classList.contains('active');
-        // When sidebar is shown, hide boxes. When hidden, show boxes
         if (sidebarIsActive) {
           content.classList.add('hide-boxes');
         } else {

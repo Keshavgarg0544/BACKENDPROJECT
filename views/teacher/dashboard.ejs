@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Profile</title>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Teacher Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     :root {
@@ -73,39 +73,68 @@
       margin-left: 250px;
       width: calc(100% - 250px);
       display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 60px 20px;
-      transition: margin-left 0.3s;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 50px 20px;
+      transition: margin-left 0.3s;
     }
 
-    .profile-box {
+    .welcome h3 {
+      font-size: 38px;
+      color: var(--text-color);
+      margin-bottom: 50px;
+      text-shadow: 1px 1px 8px rgba(0, 198, 255, 0.5);
+    }
+
+    .st {
+      display: flex;
+      gap: 60px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .box {
       background: rgba(255, 255, 255, 0.05);
       backdrop-filter: blur(15px);
       border-radius: 20px;
-      max-width: 500px;
-      padding: 40px;
-      transition: 0.4s ease;
+      width: 280px;
+      height: 180px;
+      padding: 30px;
       text-align: center;
+      text-decoration: none;
+      color: var(--text-color);
+      transition: 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       border: 2px solid transparent;
     }
 
-    .profile-box:hover {
+    .box i {
+      font-size: 35px;
+      margin-bottom: 15px;
+      color: var(--accent-color);
+    }
+
+    .box h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .box p {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--accent-color);
+    }
+
+    .box:hover {
       border-color: var(--box-glow);
       box-shadow: 0 0 25px var(--box-glow);
       transform: scale(1.05);
-    }
-
-    h2 {
-      font-size: 28px;
-      color: var(--accent-color);
-      margin-bottom: 25px;
-    }
-
-    p {
-      margin: 12px 0;
-      font-size: 18px;
     }
 
     .toggle-btn {
@@ -122,7 +151,7 @@
       z-index: 100;
     }
 
-    .hide-content .content {
+    .hide-boxes .st {
       display: none;
     }
 
@@ -141,8 +170,24 @@
         padding: 100px 20px 40px;
       }
 
+      .box {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .welcome h3 {
+        font-size: 28px;
+      }
+
       .toggle-btn {
         display: block;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .st {
+        flex-direction: column;
+        gap: 30px;
       }
     }
   </style>
@@ -152,24 +197,23 @@
   <button class="toggle-btn" id="toggleBtn"><i class="fas fa-bars"></i></button>
 
   <div class="sidebar" id="sidebar">
-    <h2>Admin Panel</h2>
-    <a href="/admin/dashome"><i class="fas fa-home"></i> Home</a>
-    <a href="/admin/admindash"><i class="fas fa-user-graduate"></i> Students</a>
-    <a href="/admin/teacher-dashboard"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
-    <a href="/admin/class"><i class="fas fa-layer-group"></i> Class</a>
-    <a href="/admin/subject"><i class="fas fa-book"></i> Subject</a>
-    <a href="/admin/circulars"><i class="fas fa-bullhorn"></i> Circulars</a>
-    <a href="/admin/profile"><i class="fas fa-user-circle"></i> Profile</a>
+    <h2>Teacher Panel</h2>
+    <a href="/teacher/dashboard"><i class="fas fa-home"></i> Home</a>
+    <a href="/teacher/StudentDash"><i class="fas fa-users"></i> Students</a>
+    <a href="/teacher/profile"><i class="fas fa-user-circle"></i> Profile</a>
     <a href="/choose"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
 
   <div class="content" id="content">
-    <div class="profile-box">
-      <h2>👤 Admin Profile</h2>
-      <p><strong>Name:</strong> <%= user.name %></p>
-      <p><strong>Username:</strong> <%= user.username %></p>
-      <p><strong>Email:</strong> <%= user.email %></p>
-      <p><strong>Role:</strong> <%= user.role || 'Administrator' %></p>
+    <div class="welcome">
+      <h3>Welcome Teacher 👩‍🏫</h3>
+    </div>
+    <div class="st">
+      <a href="/teacher/StudentDash" class="box">
+        <i class="fas fa-users"></i>
+        <h2>Total Students</h2>
+        <p><%= studentCount %></p>
+      </a>
     </div>
   </div>
 
@@ -177,17 +221,25 @@
     const toggleBtn = document.getElementById('toggleBtn');
     const sidebar = document.getElementById('sidebar');
     const content = document.getElementById('content');
-    const body = document.body;
-
+  
     toggleBtn.addEventListener('click', () => {
+      const isMobile = window.innerWidth <= 768;
       sidebar.classList.toggle('active');
-      body.classList.toggle('hide-content');
+  
+      if (isMobile) {
+        const sidebarIsActive = sidebar.classList.contains('active');
+        if (sidebarIsActive) {
+          content.classList.add('hide-boxes');
+        } else {
+          content.classList.remove('hide-boxes');  
+        }
+      }
     });
-
+  
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
+        content.classList.remove('hide-boxes');
         sidebar.classList.remove('active');
-        body.classList.remove('hide-content');
       }
     });
   </script>

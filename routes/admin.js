@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
-
 const multer = require('multer');
 const User = require('../models/Admin');
 const Student = require('../models/Student');
@@ -370,7 +369,6 @@ router.post('/attendance', async (req, res) => {
     todayPercentage
   });
 });
-
 
 
 function getToday() {
